@@ -24,7 +24,7 @@ PrivyNote is a secure personal diary application that allows users to write, edi
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/<your-username>/PrivyNote.git
+git clone https://github.com/nikku1229/privyNote.git
 
 cd server
 npm install
