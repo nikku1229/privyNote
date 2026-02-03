@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -11,17 +12,54 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <h3>PrivyNote</h3>
+    <nav className="header">
+      <div className="main-container">
+        <div className="header-content">
+          <Link to="/">
+            <h3>PrivyNote</h3>
+          </Link>
 
-      <div className="nav-actions">
-        {user && (
-          <>
-            <Link to="/">Dashboard</Link>
-            <Link to="/diary">Diary</Link>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        )}
+          <div className="nav-actions">
+            {user ? (
+              <>
+                {location.pathname === "/" ? (
+                  <Link to="/diary">Diary</Link>
+                ) : (
+                  <Link to="/">Dashboard</Link>
+                )}
+                <button onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <div className="header-btn">
+                  {location.pathname === "/login" ||
+                  location.pathname === "/register" ? (
+                    <>
+                      <Link to="/">Dashboard</Link>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => {
+                          navigate("/login");
+                        }}
+                      >
+                        Login
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate("/register");
+                        }}
+                      >
+                        SignUp
+                      </button>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );

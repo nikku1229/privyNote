@@ -8,15 +8,18 @@ export const AuthProvider = ({ children }) => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
-  
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const saveUser = localStorage.getItem("user");
+
     if (token) {
       try {
-        const decoded = jwtDecode(token);
-        setUser({ id: decoded.id });
+        setUser(JSON.parse(saveUser));
+        // const decoded = jwtDecode(token);
+        // setUser({ id: decoded.id });
       } catch {
         localStorage.removeItem("token");
         setUser(null);
