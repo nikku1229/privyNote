@@ -1,7 +1,7 @@
 import { useState } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,6 +36,7 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
+      <Link to="/forgot-password">Forgot Password?</Link>
     </div>
   );
 };

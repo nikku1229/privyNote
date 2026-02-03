@@ -3,8 +3,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Diary from "./pages/Diary";
-import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import BackBox from "./components/BackBox";
 
@@ -21,6 +23,9 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/diary" element={<Diary />} />
         </Route>
+
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
