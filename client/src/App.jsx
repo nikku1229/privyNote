@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Toast from "./components/Toast";
 import Navbar from "./components/Navbar";
 import BackBox from "./components/BackBox";
 
@@ -15,6 +16,7 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <BackBox></BackBox>
+      <Toast></Toast>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

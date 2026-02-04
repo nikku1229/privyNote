@@ -2,12 +2,17 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, setToast } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
     logout();
+
+    setToast("Logout Successful");
+    setTimeout(() => {
+      setToast("");
+    }, 2000);
     navigate("/login");
   };
 

@@ -65,6 +65,10 @@ button:focus {
   outline: none;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 .main-container {
   position: relative;
   width: 100%;
@@ -90,6 +94,32 @@ button:focus {
 .icon {
   width: 25px;
   height: 25px;
+}
+
+.toast {
+  position: fixed;
+  top: 30px;
+  right: 50%;
+  transform: translateX(50%);
+  background-color: var(--primary-color);
+  border-radius: 20px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  min-width: 200px;
+  font-size: 16px;
+  animation: toast 200ms ease-out;
+}
+
+@keyframes toast {
+  from {
+    top: -20%;
+  }
+  to {
+    top: 0;
+  }
 }
 
 .header {
@@ -159,14 +189,15 @@ nav a {
 
   .left {
     width: 35%;
-    gap: 30px;
+    gap: 20px;
+    color: var(--black);
 
     .icon {
       width: 200px;
       height: 200px;
     }
 
-    button{
+    button {
       width: 150px;
     }
   }
@@ -189,6 +220,57 @@ nav a {
 
     h1 span {
       font-size: 60px;
+    }
+  }
+}
+
+.form-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10vw;
+}
+
+.signup-form,
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+  gap: 25px;
+
+  h2 {
+    font-weight: 400;
+    font-size: 35px;
+  }
+
+  a {
+    color: var(--white);
+  }
+
+  input {
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid var(--secondary-color);
+    width: 400px;
+    padding: 2px 2px;
+    font-size: 20px;
+    color: var(--white);
+
+    &::placeholder {
+      color: var(--secondary-color);
+      opacity: 0.5;
+    }
+  }
+
+  button {
+    background-color: var(--secondary-color);
+    color: var(--black);
+    font-size: 18px;
+    width: 200px;
+
+    &:hover {
+      scale: 1.01;
     }
   }
 }
