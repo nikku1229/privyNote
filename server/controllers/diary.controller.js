@@ -18,8 +18,9 @@ export const createDiary = async (req, res) => {
 
 export const getMyDiaries = async (req, res) => {
   try {
-    const diaries = await Diary.find({ userId: req.userId })
-      .sort({ createdAt: -1 });
+    const diaries = await Diary.find({ userId: req.userId }).sort({
+      createdAt: -1,
+    });
 
     res.json(diaries);
   } catch (error) {

@@ -19,6 +19,8 @@
   --black: #0c0c0c;
   --white: #ffffff;
 
+  --secondary-variant-1: rgba(255, 248, 232, 0.7);
+
   --logo-font: "Tangerine", cursive;
   --text-font: "Inter", sans-serif;
 }
@@ -33,6 +35,10 @@
   font-family: var(--logo-font);
 }
 
+html {
+  scrollbar-width: thin;
+}
+
 body {
   background-color: var(--primary-color);
   color: var(--white);
@@ -41,6 +47,8 @@ body {
   width: 100vw;
   height: 100vh;
   font-family: var(--text-font);
+  overflow-y: none;
+  overflow-x: hidden;
 }
 
 button {
@@ -271,6 +279,190 @@ nav a {
 
     &:hover {
       scale: 1.01;
+    }
+  }
+}
+
+.diary-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.diary-field {
+  width: 100%;
+  height: fit-content;
+
+  form {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+    padding: 0px 50px;
+
+    /* textarea {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid var(--secondary-color);
+      color: var(--secondary-color);
+      font-size: 18px;
+      font-family: var(--text-font);
+      width: 85%;
+      resize: none;
+      overflow: hidden;
+      height: fit-content;
+      padding: 5px 2px;
+
+      &::placeholder {
+        color: var(--secondary-color);
+        opacity: 0.6;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    } */
+
+    textarea {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid var(--secondary-color);
+      font-size: 18px;
+      font-family: var(--text-font);
+      color: var(--secondary-color);
+      width: 85%;
+      padding: 5px 2px;
+      resize: none;
+      overflow: hidden;
+      min-height: 30px;
+      line-height: 1.6;
+      transition: height 0.15s ease;
+
+      &::placeholder {
+        color: var(--secondary-color);
+        opacity: 0.6;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      background-color: var(--secondary-color);
+      color: var(--black);
+      font-size: 18px;
+      width: 170px;
+
+      &:hover {
+        scale: 1.01;
+      }
+    }
+  }
+}
+
+.search-bar-section {
+  display: flex;
+  width: 100%;
+  padding: 0px 50px;
+  justify-content: end;
+
+  form {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    gap: 20px;
+
+    input {
+      width: 200px;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid var(--secondary-color);
+      color: var(--secondary-color);
+      font-size: 16px;
+      font-family: var(--text-font);
+      padding: 5px 2px;
+
+      &::placeholder {
+        color: var(--secondary-color);
+        opacity: 0.6;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      background-color: var(--secondary-color);
+      color: var(--black);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+
+      &:hover {
+        scale: 1.01;
+      }
+    }
+  }
+}
+
+.diary-list-section {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 50px;
+  gap: 30px;
+
+  .diary-entry {
+    width: 100%;
+    background-color: var(--secondary-variant-1);
+    opacity: 60%;
+    color: var(--primary-color);
+    border-radius: 15px;
+    padding: 30px 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    .content {
+      color: var(--black);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+
+      p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .diary-entry-btn {
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      background-color: var(--white);
+      color: var(--black);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+
+      &:hover {
+        scale: 1.01;
+      }
     }
   }
 }

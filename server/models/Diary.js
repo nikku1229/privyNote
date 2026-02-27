@@ -17,7 +17,7 @@ const diarySchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Diary = mongoose.model("Diary", diarySchema);
