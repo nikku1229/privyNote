@@ -8,6 +8,10 @@ export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
@@ -33,6 +37,10 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields required" });
+    }
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -60,6 +68,10 @@ export const login = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email required" });
+  }
 
   const user = await User.findOne({ email });
   if (!user) {

@@ -17,15 +17,15 @@ const Diary = () => {
   const typingTimeout = useRef(null);
   const textareaRef = useRef(null);
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   const { setToast } = useAuth();
 
   const fetchDiaries = async () => {
     const res = await API.get("/diary", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
     });
     setDiaries(res.data);
   };
@@ -39,7 +39,7 @@ const Diary = () => {
       await API.put(
         `/diary/${editingId}`,
         { content },
-        { headers: { Authorization: `Bearer ${token}` } },
+        // { headers: { Authorization: `Bearer ${token}` } },
       );
       setEditingId(null);
 
@@ -52,7 +52,7 @@ const Diary = () => {
       await API.post(
         "/diary",
         { content },
-        { headers: { Authorization: `Bearer ${token}` } },
+        // { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setToast("Notes Saved");
@@ -67,10 +67,10 @@ const Diary = () => {
   };
 
   const deleteDiary = async (id) => {
-    if (!confirm("Delete this note?")) return;
+    if (!window.confirm("Delete this note?")) return;
 
     await API.delete(`/diary/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${token}` },
     });
 
     setToast("Delete Successful");
@@ -108,12 +108,12 @@ const Diary = () => {
       await API.put(
         `/diary/${editingId}`,
         { content },
-        { headers: { Authorization: `Bearer ${token}` } },
+        // { headers: { Authorization: `Bearer ${token}` } },
       );
     }, 1000);
 
     return () => clearTimeout(typingTimeout.current);
-  }, [content, mode]);
+  }, [content, mode, editingId]);
 
   useEffect(() => {
     autoResizeTextarea();

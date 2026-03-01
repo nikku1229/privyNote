@@ -12,14 +12,19 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const saveUser = localStorage.getItem("user");
+    const savedUser = localStorage.getItem("user");
 
-    if (token) {
+    if (token && savedUser) {
       try {
-        setUser(JSON.parse(saveUser));
+        const decoded = jwtDecode(token);
+
+        if (decoded.exp * 1000 < Date.now()) {
+          logout();
+        } else {
+          setUser(JSON.parse(savedUser));
+        }
       } catch {
-        localStorage.removeItem("token");
-        setUser(null);
+        logout();
       }
     }
   }, []);

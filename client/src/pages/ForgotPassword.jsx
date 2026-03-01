@@ -7,7 +7,7 @@ import MedalIcon from "../assets/Icons/MedalIcon.svg?react";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const { setToast } = useAuth();
 
   const submitHandler = async (e) => {
@@ -15,7 +15,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await API.post("/auth/forgot-password", { email });
-      setToken(res.data.token);
+      // setToken(res.data.token);
       setToast("Reset link send to mail");
       setTimeout(() => {
         setToast("");

@@ -1,9 +1,13 @@
 import axios from "axios";
 
+const baseURL =
+  import.meta.env.VITE_BACKEND_PRODUCTION_URL ||
+  import.meta.env.VITE_BACKEND_LOCAL_URL;
+
+if (!baseURL) console.log("Backend Url not config");
+
 const API = axios.create({
-  baseURL:
-    import.meta.env.VITE_BACKEND_PROCUCTION_URL ||
-    import.meta.env.VITE_BACKEND_LOCAL_URL,
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json",
   },

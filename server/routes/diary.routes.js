@@ -27,9 +27,10 @@ router.get("/:id", authMiddleware, async (req, res) => {
 
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
+    const { title, content } = req.body;
     const diary = await Diary.findOneAndUpdate(
       { _id: req.params.id, userId: req.userId },
-      req.body,
+      { title, content },
       { new: true },
     );
 
