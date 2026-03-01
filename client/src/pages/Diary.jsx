@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import ViewDiary from "../components/ViewDiary";
 import SearchIcon from "../assets/Icons/SearchIcon.svg?react";
 import PencilIcon from "../assets/Icons/PencilIcon.svg?react";
 import DeleteIcon from "../assets/Icons/DeleteIcon.svg?react";
+import CrossIcon from "../assets/Icons/CrossIcon.svg?react";
 
 const Diary = () => {
   const [content, setContent] = useState("");
@@ -95,14 +97,6 @@ const Diary = () => {
   };
 
   useEffect(() => {
-    autoResizeTextarea();
-  }, [content]);
-
-  useEffect(() => {
-    fetchDiaries();
-  }, []);
-
-  useEffect(() => {
     if (mode !== "edit") return;
     if (!content.trim()) return;
 
@@ -121,12 +115,19 @@ const Diary = () => {
     return () => clearTimeout(typingTimeout.current);
   }, [content, mode]);
 
+  useEffect(() => {
+    autoResizeTextarea();
+  }, [content]);
+
+  useEffect(() => {
+    fetchDiaries();
+  }, []);
+
   return (
     <>
       <div className="dashboard-main">
         <div className="main-container">
           <div className="diary-container">
-            {/* Write Diary Area */}
             <div className="diary-field">
               <form onSubmit={saveDiary}>
                 <textarea
@@ -139,8 +140,19 @@ const Diary = () => {
                   }}
                   style={{ overflow: "hidden", resize: "none" }}
                 />
+                {mode === "edit" && (
+                  <button
+                    className="cancel-edit-btn"
+                    onClick={() => {
+                      setMode("create");
+                      setContent("");
+                      setEditingId(null);
+                    }}
+                  >
+                    <CrossIcon />
+                  </button>
+                )}
                 <button type="submit">{editingId ? "Update" : "Save"}</button>
-                {/* <button type="submit">Save</button> */}
               </form>
             </div>
             <div className="search-bar-section">
@@ -162,138 +174,57 @@ const Diary = () => {
             </div>
 
             <div className="diary-list-section">
-              {filteredDiaries.map((d) => (
-                <div
-                  className="diary-entry"
-                  key={d._id}
-                  onClick={() => {
-                    setSelectedDiary(d);
-                    // setContent(d.content);
-                    // setEditingId(d._id);
-                    setMode("view");
-                  }}
-                >
-                  <div className="content">
-                    <p>{d.content}</p>
-                    <small>{new Date(d.createdAt).toLocaleString()}</small>
+              {(mode === "create" || mode === "edit") &&
+                filteredDiaries.map((d) => (
+                  <div
+                    className="diary-entry"
+                    key={d._id}
+                    onClick={() => {
+                      setSelectedDiary(d);
+                      setMode("view");
+                    }}
+                  >
+                    <div className="content">
+                      <p>{d.content}</p>
+                      <small>{new Date(d.createdAt).toLocaleString()}</small>
+                    </div>
+                    <div className="diary-entry-btn">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setContent(d.content);
+                          setEditingId(d._id);
+                          setMode("edit");
+                        }}
+                      >
+                        <PencilIcon className="icon" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteDiary(d._id);
+                        }}
+                      >
+                        <DeleteIcon className="icon" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="diary-entry-btn">
-                    <button
-                      onClick={() => {
-                        setContent(d.content);
-                        setEditingId(d._id);
-                      }}
-                    >
-                      <PencilIcon className="icon" />
-                    </button>
-                    <button onClick={() => deleteDiary(d._id)}>
-                      <DeleteIcon className="icon" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              {mode === "view" && selectedDiary && (
+                <>
+                  <ViewDiary
+                    selectedDiary={selectedDiary}
+                    setMode={setMode}
+                    deleteDiary={deleteDiary}
+                    setContent={setContent}
+                    setEditingId={setEditingId}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {/* {filteredDiaries.map((d) => (
-        <div
-          className="diary-entry"
-          key={d._id}
-          onClick={() => {
-            setSelectedDiary(d);
-            setContent(d.content);
-            setEditingId(d._id);
-            setMode("view");
-          }}
-        >
-          <p>{d.content}</p>
-          <small>{new Date(d.createdAt).toLocaleString()}</small>
-
-          <div className="actions">
-            <button onClick={() => deleteDiary(d._id)}>Delete</button>
-          </div>
-        </div>
-      ))} */}
-
-      {/* <div className="app-container diary-container"> */}
-
-      {/* <div className="diary-editor"> */}
-      {/* CREATE MODE */}
-      {/* {mode === "create" && (
-            <form onSubmit={saveDiary}>
-              <textarea
-                className="diary-textarea"
-                placeholder="Write your thoughts..."
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-              <button type="submit">Save Note</button>
-            </form>
-          )} */}
-
-      {/* VIEW MODE */}
-      {/* {mode === "view" && selectedDiary && (
-            <div className="diary-view">
-              <p>{selectedDiary.content}</p>
-              <small>
-                {new Date(selectedDiary.createdAt).toLocaleString()}
-              </small>
-
-              <div className="actions">
-                <button onClick={() => setMode("edit")}>Edit</button>
-                <button
-                  className="danger"
-                  onClick={() => deleteDiary(selectedDiary._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          )} */}
-
-      {/* EDIT MODE */}
-      {/* {mode === "edit" && (
-            <form onSubmit={saveDiary}>
-              <textarea
-                className="diary-textarea"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-              <button type="submit">Update Note</button>
-            </form>
-          )} */}
-      {/* </div> */}
-
-      {/* <input
-          className="search-input"
-          placeholder="Search notes..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        /> */}
-
-      {/* <div className="diary-list"> */}
-      {/* {filteredDiaries.map((d) => (
-            <div
-              className="diary-entry"
-              key={d._id}
-              onClick={() => {
-                setSelectedDiary(d);
-                setContent(d.content);
-                setEditingId(d._id);
-                setMode("view");
-              }}
-            >
-              <p>{d.content}</p>
-              <small>{new Date(d.createdAt).toLocaleString()}</small>
-
-              <div className="actions">
-                <button onClick={() => deleteDiary(d._id)}>Delete</button>
-              </div>
-            </div>
-          ))} */}
-      {/* </div> */}
-      {/* </div> */}
     </>
   );
 };

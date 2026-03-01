@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         setUser(JSON.parse(saveUser));
-        // const decoded = jwtDecode(token);
-        // setUser({ id: decoded.id });
       } catch {
         localStorage.removeItem("token");
         setUser(null);
