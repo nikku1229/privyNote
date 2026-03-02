@@ -744,6 +744,86 @@ nav a {
   }
 }
 
+@media (max-width: 400px) and (max-height: 750px) {
+  .header-content {
+    h3 {
+      font-size: 26px;
+    }
+    .nav-actions a {
+      font-size: 16px;
+    }
+
+    .nav-actions button {
+      font-size: 16px;
+      width: 100px;
+      height: 40px;
+    }
+  }
+
+  .box-container {
+    top: 350px;
+    left: 15%;
+  }
+
+  .main-container .right {
+    .icon {
+      width: 80px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h1 span {
+      font-size: 34px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .right.form-area {
+    .icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    form h2 {
+      font-size: 22px;
+    }
+
+    form {
+      input,
+      a,
+      button {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .diary-container {
+    .diary-field textarea,
+    form input,
+    form button, p {
+      font-size: 16px;
+    }
+
+    .viewmode-diary-title{
+      font-size: 18px !important;
+    }
+
+    .viewmode-diary-section {
+      padding: 20px 15px;
+    }
+
+    .viewmode-diary-btns button{
+      width: 35px !important;
+      height: 35px !important;
+    }
+  }
+}
+
 @media screen and (max-width: 350px) {
   .main-container .left {
     .icon {
