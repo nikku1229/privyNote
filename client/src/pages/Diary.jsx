@@ -126,7 +126,7 @@ const Diary = () => {
   return (
     <>
       <div className="dashboard-main">
-        <div className="main-container">
+        <div className="main-container diary-dashboard">
           <div className="diary-container">
             <div className="diary-field">
               <form onSubmit={saveDiary}>

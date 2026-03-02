@@ -37,6 +37,10 @@ body {
   overflow-x: hidden;
 }
 
+p {
+  white-space: pre-wrap;
+}
+
 button {
   background-color: var(--primary-color);
   border: none;
@@ -493,5 +497,264 @@ nav a {
       color: var(--black);
       line-height: 1.7;
     }
+  }
+}
+
+@media (max-width: 1320px) and (min-width: 1200px) {
+  .box-container {
+    top: 150px;
+    left: -50px;
+    width: 40vw;
+    height: 55vh;
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 1024px) {
+  .box-container {
+    top: 150px;
+    left: -80px;
+    width: 45vw;
+    height: 55vh;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .box-container {
+    top: 150px;
+    left: -100px;
+    width: 50vw;
+    height: 55vh;
+  }
+
+  .dashboard-main .main-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .diary-field form,
+  .search-bar-section,
+  .diary-list-section {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .box-container {
+    top: 190px;
+    left: -50px;
+    width: 40vw;
+    height: 45vh;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .box-container {
+    top: 200px;
+    left: -100px;
+    width: 50vw;
+    height: 45vh;
+  }
+
+  .main-container .left {
+    .icon {
+      width: 150px;
+    }
+  }
+
+  .main-container .right {
+    padding-left: 50px;
+
+    h1,
+    p {
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-container {
+    display: flex;
+    flex-direction: column-reverse;
+
+    section {
+      align-self: center;
+    }
+
+    section.right {
+      padding-left: 0px;
+    }
+
+    .left {
+      height: 50%;
+      .icon {
+        width: 120px;
+        height: 100px;
+      }
+    }
+  }
+
+  .box-container {
+    width: 300px;
+    height: 300px;
+    top: 450px;
+    left: 30%;
+  }
+
+  .main-container .form-area {
+    padding-left: 0px;
+  }
+
+  .main-container.diary-dashboard {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .box-container {
+    width: 300px;
+    height: 300px;
+    top: 450px;
+    left: 30%;
+  }
+
+  .diary-field form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+
+    textarea {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  html {
+    width: 100vw;
+  }
+
+  body {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .box-container {
+    width: 300px;
+    height: 300px;
+    top: 450px;
+    left: 23%;
+  }
+  .main-container {
+    .left {
+      p {
+        text-align: center;
+      }
+    }
+    .right {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .main-container {
+    .right {
+      width: 100%;
+    }
+  }
+
+  .box-container {
+    top: 450px;
+    left: 15%;
+  }
+
+  .diary-container {
+    width: 100%;
+
+    .diary-field form {
+      width: 100%;
+    }
+  }
+
+  .search-bar-section {
+    width: 100%;
+
+    form {
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  .diary-list-section {
+    width: 100%;
+    padding: 0px;
+
+    .viewmode-diary-section {
+      width: 100%;
+      padding: 30px 20px;
+    }
+
+    .viewmode-diary-head {
+      .viewmode-diary-title {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .main-container {
+    .right {
+      width: 100%;
+    }
+  }
+
+  .box-container {
+    width: 250px;
+    height: 250px;
+    top: 470px;
+    left: 20%;
+  }
+
+  .login-form {
+    input {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header-content {
+    h3 {
+      font-size: 35px;
+    }
+  }
+
+  .main-container .right h1 {
+    font-size: 35px;
+
+    span {
+      font-size: 55px;
+    }
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .main-container .left {
+    .icon {
+      width: 80px;
+    }
+  }
+
+  .box-container {
+    width: 230px;
+    height: 230px;
+    top: 480px;
+    left: 18%;
   }
 }
