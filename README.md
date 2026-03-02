@@ -18,6 +18,9 @@ PrivyNote allows users to:
 
 The application follows modern security and full-stack development best practices.
 
+Live link: 
+Vercel - https://privy-note.vercel.app/
+
 ---
 
 ## 🏗️ Tech Stack
