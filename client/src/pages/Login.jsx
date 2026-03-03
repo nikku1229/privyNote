@@ -1,7 +1,9 @@
 import { useState } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import { useLoading } from "../context/LoadingContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import Loader from "../components/Loader";
 import BookIcon from "../assets/Icons/BookIcon.svg?react";
 import MedalIcon from "../assets/Icons/MedalIcon.svg?react";
 
@@ -9,6 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, toast, setToast } = useAuth();
+  const { loading, setLoading } = useLoading();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,6 +19,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const res = await API.post("/auth/login", { email, password });
       login(res.data.user);
       localStorage.setItem("token", res.data.token);
@@ -32,6 +36,8 @@ const Login = () => {
       setTimeout(() => {
         setToast("");
       }, 2000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,26 +53,34 @@ const Login = () => {
             </Link>
           </section>
           <div className="right form-area">
-            <MedalIcon className="icon" />
-            <form onSubmit={handleSubmit} className="login-form">
-              <h2>Login</h2>
-              <input
-                placeholder="Email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <Link to="/forgot-password">Forgot Password</Link>
-              <button type="submit" className="form-btn">
-                Login
-              </button>
-            </form>
+            {loading ? (
+              <>
+                <Loader></Loader>
+              </>
+            ) : (
+              <>
+                <MedalIcon className="icon" />
+                <form onSubmit={handleSubmit} className="login-form">
+                  <h2>Login</h2>
+                  <input
+                    placeholder="Email"
+                    type="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <Link to="/forgot-password">Forgot Password</Link>
+                  <button type="submit" className="form-btn">
+                    Login
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </div>

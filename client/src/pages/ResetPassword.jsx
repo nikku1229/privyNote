@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import { useLoading } from "../context/LoadingContext";
+import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
 import BookIcon from "../assets/Icons/BookIcon.svg?react";
 import MedalIcon from "../assets/Icons/MedalIcon.svg?react";
@@ -10,11 +12,13 @@ const ResetPassword = () => {
   const { token } = useParams();
   const [password, setPassword] = useState("");
   const { setToast } = useAuth();
+  const { loading, setLoading } = useLoading();
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       await API.post(`/auth/reset-password/${token}`, { password });
 
       setToast("Password Updated");
@@ -27,6 +31,8 @@ const ResetPassword = () => {
       setTimeout(() => {
         setToast("");
       }, 2000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,21 +48,29 @@ const ResetPassword = () => {
           </section>
 
           <div className="right form-area">
-            <MedalIcon className="icon" />
+            {loading ? (
+              <>
+                <Loader></Loader>
+              </>
+            ) : (
+              <>
+                <MedalIcon className="icon" />
 
-            <form className="login-form" onSubmit={submitHandler}>
-              <h2>New Password</h2>
-              <input
-                placeholder="Enter new password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button type="submit" className="form-btn">
-                Update password
-              </button>
-            </form>
+                <form className="login-form" onSubmit={submitHandler}>
+                  <h2>New Password</h2>
+                  <input
+                    placeholder="Enter new password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button type="submit" className="form-btn">
+                    Update password
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import ViewDiary from "../components/ViewDiary";
+import Loader from "../components/Loader";
+import { useLoading } from "../context/LoadingContext";
 import SearchIcon from "../assets/Icons/SearchIcon.svg?react";
 import PencilIcon from "../assets/Icons/PencilIcon.svg?react";
 import DeleteIcon from "../assets/Icons/DeleteIcon.svg?react";
@@ -20,14 +22,23 @@ const Diary = () => {
   // const token = localStorage.getItem("token");
 
   const { setToast } = useAuth();
+  const { loading, setLoading } = useLoading();
 
   const fetchDiaries = async () => {
-    const res = await API.get("/diary", {
-      // headers: {
-      //   Authorization: `Bearer ${token}`,
-      // },
-    });
-    setDiaries(res.data);
+    try {
+      setLoading(true);
+      const res = await API.get("/diary", {
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+      });
+      setDiaries(res.data);
+    } catch (err) {
+      setLoading(true);
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const saveDiary = async (e) => {
@@ -36,24 +47,38 @@ const Diary = () => {
     if (!content.trim()) return;
 
     if (editingId) {
-      await API.put(
-        `/diary/${editingId}`,
-        { content },
-        // { headers: { Authorization: `Bearer ${token}` } },
-      );
-      setEditingId(null);
+      try {
+        setLoading(true);
+        await API.put(
+          `/diary/${editingId}`,
+          { content },
+          // { headers: { Authorization: `Bearer ${token}` } },
+        );
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
 
+      setEditingId(null);
       setToast("Notes Updated");
       setTimeout(() => {
         setToast("");
       }, 2000);
       setMode("create");
     } else {
-      await API.post(
-        "/diary",
-        { content },
-        // { headers: { Authorization: `Bearer ${token}` } },
-      );
+      try {
+        setLoading(true);
+        await API.post(
+          "/diary",
+          { content },
+          // { headers: { Authorization: `Bearer ${token}` } },
+        );
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
 
       setToast("Notes Saved");
       setTimeout(() => {
@@ -69,9 +94,16 @@ const Diary = () => {
   const deleteDiary = async (id) => {
     if (!window.confirm("Delete this note?")) return;
 
-    await API.delete(`/diary/${id}`, {
-      // headers: { Authorization: `Bearer ${token}` },
-    });
+    try {
+      setLoading(true);
+      await API.delete(`/diary/${id}`, {
+        // headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
 
     setToast("Delete Successful");
     setTimeout(() => {
@@ -105,11 +137,18 @@ const Diary = () => {
     }
 
     typingTimeout.current = setTimeout(async () => {
-      await API.put(
-        `/diary/${editingId}`,
-        { content },
-        // { headers: { Authorization: `Bearer ${token}` } },
-      );
+      try {
+        setLoading(true);
+        await API.put(
+          `/diary/${editingId}`,
+          { content },
+          // { headers: { Authorization: `Bearer ${token}` } },
+        );
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     }, 1000);
 
     return () => clearTimeout(typingTimeout.current);
@@ -152,7 +191,9 @@ const Diary = () => {
                     <CrossIcon />
                   </button>
                 )}
-                <button type="submit">{editingId ? "Update" : "Save"}</button>
+                <button type={loading ? "button" : "submit"}>
+                  {editingId ? "Update" : "Save"}
+                </button>
               </form>
             </div>
             <div className="search-bar-section">
@@ -174,42 +215,52 @@ const Diary = () => {
             </div>
 
             <div className="diary-list-section">
-              {(mode === "create" || mode === "edit") &&
-                filteredDiaries.map((d) => (
-                  <div
-                    className="diary-entry"
-                    key={d._id}
-                    onClick={() => {
-                      setSelectedDiary(d);
-                      setMode("view");
-                    }}
-                  >
-                    <div className="content">
-                      <p>{d.content}</p>
-                      <small>{new Date(d.createdAt).toLocaleString()}</small>
-                    </div>
-                    <div className="diary-entry-btn">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setContent(d.content);
-                          setEditingId(d._id);
-                          setMode("edit");
+              {loading ? (
+                <>
+                  <Loader></Loader>
+                </>
+              ) : (
+                <>
+                  {(mode === "create" || mode === "edit") &&
+                    filteredDiaries.map((d) => (
+                      <div
+                        className="diary-entry"
+                        key={d._id}
+                        onClick={() => {
+                          setSelectedDiary(d);
+                          setMode("view");
                         }}
                       >
-                        <PencilIcon className="icon" />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteDiary(d._id);
-                        }}
-                      >
-                        <DeleteIcon className="icon" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                        <div className="content">
+                          <p>{d.content}</p>
+                          <small>
+                            {new Date(d.createdAt).toLocaleString()}
+                          </small>
+                        </div>
+                        <div className="diary-entry-btn">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setContent(d.content);
+                              setEditingId(d._id);
+                              setMode("edit");
+                            }}
+                          >
+                            <PencilIcon className="icon" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteDiary(d._id);
+                            }}
+                          >
+                            <DeleteIcon className="icon" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </>
+              )}
               {mode === "view" && selectedDiary && (
                 <>
                   <ViewDiary
