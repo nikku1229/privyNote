@@ -744,7 +744,7 @@ nav a {
     left: 20%;
   }
 
-  .login-form {
+  .login-form, .signup-form {
     input {
       width: 100%;
     }
