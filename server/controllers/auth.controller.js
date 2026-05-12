@@ -2,7 +2,12 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import sendEmail from "../utils/sendEmail.js";
+import dotenv from "dotenv";
+import { Resend } from "resend";
+
+dotenv.config();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const register = async (req, res) => {
   try {
@@ -89,22 +94,28 @@ export const forgotPassword = async (req, res) => {
 
   await user.save();
 
-  const resetURL = `${process.env.CLIENT_PRODUCTION_URL || process.env.CLIENT_LOCAL_URL}/reset-password/${resetToken}`;
-
-  const message = `
-    <h2>Reset Your Password</h2>
-    <p>You requested a password reset for <b>PrivyNote</b>.</p>
-    <p>Click the link below to reset your password:</p>
-    <a href="${resetURL}" target="_blank">${resetURL}</a>
-    <p>This link will expire in 10 minutes.</p>
-  `;
+  // const resetURL = `${process.env.CLIENT_PRODUCTION_URL || process.env.CLIENT_LOCAL_URL}/reset-password/${resetToken}`;
+  const resetURL = `${process.env.CLIENT_LOCAL_URL}/reset-password/${resetToken}`;
 
   try {
-    await sendEmail({
-      to: user.email,
-      subject: "PrivyNote - Password Reset",
-      html: message,
+    const response = await resend.emails.send({
+      from: process.env.FROM_EMAIL,
+      to: "niteshsharma5740@gmail.com",
+      subject: "Password Reset - PrivyNote",
+      html: `
+      <h2>Password Reset</h2>
+      <p>Click the link below to reset password:</p>
+
+      <a href="${resetURL}">
+        Reset Password
+      </a>
+
+      <p>
+        This link will expire in 1 hour.
+      </p>
+  `,
     });
+
     res.json({ message: "Reset link sent to email" });
   } catch (error) {
     console.error("Send email error:", error);
