@@ -94,8 +94,7 @@ export const forgotPassword = async (req, res) => {
 
   await user.save();
 
-  // const resetURL = `${process.env.CLIENT_PRODUCTION_URL || process.env.CLIENT_LOCAL_URL}/reset-password/${resetToken}`;
-  const resetURL = `${process.env.CLIENT_LOCAL_URL}/reset-password/${resetToken}`;
+  const resetURL = `${process.env.CLIENT_PRODUCTION_URL || process.env.CLIENT_LOCAL_URL}/reset-password/${resetToken}`;
 
   try {
     const response = await resend.emails.send({
