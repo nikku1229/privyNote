@@ -16,7 +16,7 @@ app.use(
     origin: function (origin, callback) {
       const allowed = [
         process.env.CLIENT_LOCAL_URL,
-        // process.env.CLIENT_PRODUCTION_URL,
+        process.env.CLIENT_PRODUCTION_URL,
       ];
 
       if (!origin || allowed.includes(origin)) {
